@@ -1,6 +1,7 @@
 module.exports = {
-  env: { browser: true, es2020: true },
+  env: { browser: true, es2020: true , node:"true"},
   extends: [
+    'react-app',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
