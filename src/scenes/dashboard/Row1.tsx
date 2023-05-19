@@ -1,6 +1,6 @@
 import DashboardBox from "@/components/DashboardBox";
 import { useGetKpisQuery } from "@/state/api";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import {
   ResponsiveContainer,
   AreaChart,
@@ -15,11 +15,14 @@ import { useTheme } from "@mui/material";
 const Row1 = () => {
   const { palette } = useTheme();
   const { data } = useGetKpisQuery();
-  // console.log('data:' ,data)
+  useEffect(() => {
+    console.log('main-data:' ,data)    
+    /*eslint-disable */
+ }, []);   
   const revenueExpenses = useMemo(() => {
     return (
       data &&
-      data[0].monthlyData.map(({ month, revenue, expenses }) => {
+      data.monthlyData?.map(({ month, revenue, expenses }) => {
         return {
           name: month.substring(0, 3),
           revenue: revenue,
@@ -30,6 +33,7 @@ const Row1 = () => {
   }, [data]);
   return (
     <>
+    revenueExpenses &&
       <DashboardBox gridArea="a">
         <div
           style={{
@@ -57,9 +61,9 @@ const Row1 = () => {
                   top: 15,
                   right: 25,
                   left: -10,
-                  bottom: 60,
+                  bottom: 30,
                 }}
-              >
+              > 
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
@@ -67,7 +71,7 @@ const Row1 = () => {
                 <Area
                   type="monotone"
                   dataKey="revenue"
-                  stroke={palette.primary.main}
+                  stroke={palette.grey[700]}
                   fillOpacity={1}
                   fill="url(#colorRevenue)"
                 />
