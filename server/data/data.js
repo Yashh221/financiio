@@ -1,4 +1,4 @@
-export const kpis = [
+const kpis = [
     {
       _id: "63bf8239f03239e002001612",
       totalProfit: "$212000.00",
@@ -4016,3 +4016,4 @@ export const kpis = [
       productIds: ["63bf7ac9f032394f5f002437"],
     },
   ];
+  export default kpis;
