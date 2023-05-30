@@ -14,26 +14,34 @@ import { useTheme } from "@mui/material";
 
 const Row1 = () => {
   const { palette } = useTheme();
-  const { data } = useGetKpisQuery();
+  const { data, isLoading, isError } = useGetKpisQuery();
   useEffect(() => {
     console.log('main-data:' ,data)    
     /*eslint-disable */
- }, []);   
-  const revenueExpenses = useMemo(() => {
-    return (
-      data &&
-      data.monthlyData?.map(({ month, revenue, expenses }) => {
-        return {
-          name: month.substring(0, 3),
-          revenue: revenue,
-          expenses: expenses,
-        };
-      })
-    );
-  }, [data]);
+  }, [data]);   
+  
+  if (isLoading) {
+    return <div>Loading...</div>; 
+  }
+
+  if (isError) {
+    return <div>Error: Unable to fetch data</div>; 
+  }
+
+  if (!data || !data[0]?.monthlyData) {
+    return <div>No data available</div>;
+  }
+
+  const revenueExpenses = data[0].monthlyData.map(({ month, revenue, expenses }) => {
+    return {
+      name:month.substring(0,3),
+      revenue:revenue,
+      expenses:expenses
+    };
+  });
+
   return (
     <>
-    revenueExpenses &&
       <DashboardBox gridArea="a">
         <div
           style={{

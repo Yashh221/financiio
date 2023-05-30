@@ -9,7 +9,7 @@ export interface Month{
     revenue:number;
     expenses:number;
     nonOperationalExpenses:number;
-    OperationalExpenses:number;
+    operationalExpenses:number;
 }
 export interface Day{
     id:string;
