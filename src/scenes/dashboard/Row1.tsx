@@ -118,6 +118,7 @@ import {
 const Row1 = () => {
   const { palette } = useTheme();
   const { data } = useGetKpisQuery();
+  // console.log(data)
 
   const revenue = useMemo(() => {
     return (
@@ -165,7 +166,7 @@ const Row1 = () => {
           subtitle="top line represents revenue, bottom line represents expenses"
           sideText="+4%"
         />
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" className="z-100">
           <AreaChart
             width={500}
             height={400}
