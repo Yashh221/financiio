@@ -71,8 +71,8 @@ const Row1 = () => {
         />
         <ResponsiveContainer width="100%" height="100%" className="z-100">
           <AreaChart
-            width={500}
-            height={400}
+            width={300}
+            height={300}
             data={revenueExpenses}
             margin={{
               top: 15,
@@ -147,7 +147,7 @@ const Row1 = () => {
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             width={500}
-            height={400}
+            height={300}
             data={revenueProfit}
             margin={{
               top: 20,
@@ -205,7 +205,7 @@ const Row1 = () => {
         />
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
-            width={500}
+            width={300}
             height={300}
             data={revenue}
             margin={{
