@@ -55,14 +55,14 @@ const Row2 = () => {
         />
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
-            width={500}
-            height={400}
+            width={400}
+            height={300}
             data={operationalExpenses}
             margin={{
               top: 20,
               right: 0,
               left: -10,
-              bottom: 55,
+              bottom: 65,
             }}
           >
             <CartesianGrid vertical={false} stroke={palette.grey[800]} />

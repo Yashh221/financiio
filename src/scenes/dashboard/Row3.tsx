@@ -1,20 +1,36 @@
 import BoxHeader from "@/components/BoxHeader";
 import DashboardBox from "@/components/DashboardBox";
+import FlexBetween from "@/components/FlexBetween";
 import {
   useGetKpisQuery,
   useGetProductsQuery,
   useGetTransactionsQuery,
 } from "@/state/api";
-import { Box, useTheme } from "@mui/material";
+import { Box, useTheme, Typography } from "@mui/material";
 import { DataGrid, GridCellParams } from "@mui/x-data-grid";
+import { useMemo } from "react";
+import { Cell, Pie, PieChart } from "recharts";
 
 const Row3 = () => {
   const { palette } = useTheme();
+  const pieColors = [palette.primary[800], palette.primary[300]];
   const { data: kpiData } = useGetKpisQuery();
   const { data: productData } = useGetProductsQuery();
   const { data: transactionData } = useGetTransactionsQuery();
-  console.log(transactionData)
 
+  const pieChartData = useMemo(() => {
+    if (kpiData) {
+      const totalExpenses = kpiData[0].totalExpenses;
+      return Object.entries(kpiData[0].expensesByCategory).map(
+        ([key, value]) => {
+          return [
+            { value: value, name: key },
+            { name: `${key} of Total`, value: totalExpenses - value },
+          ];
+        }
+      );
+    }
+  }, [kpiData]);
   const productColumns = [
     {
       field: "_id",
@@ -55,7 +71,8 @@ const Row3 = () => {
       field: "productIds",
       headerName: "Count ",
       flex: 0.1,
-      renderCell: (params: GridCellParams) => (params.value as Array<string>).length,
+      renderCell: (params: GridCellParams) =>
+        (params.value as Array<string>).length,
     },
   ];
   return (
@@ -75,13 +92,13 @@ const Row3 = () => {
               border: "none",
             },
             "& .MuiDataGrid-cell": {
-              borderBottom:`1px solid ${palette.grey[800]} !important`
+              borderBottom: `1px solid ${palette.grey[800]} !important`,
             },
             "& .MuiDataGrid-columnHeaders": {
-              borderBottom:`1px solid ${palette.grey[800]} !important`
+              borderBottom: `1px solid ${palette.grey[800]} !important`,
             },
             "& .MuiDataGrid-columnSeperator": {
-              visibility:"hidden" 
+              visibility: "hidden",
             },
           }}
         >
@@ -95,7 +112,7 @@ const Row3 = () => {
         </Box>
       </DashboardBox>
       <DashboardBox bgcolor="#fff" gridArea="h">
-      <BoxHeader
+        <BoxHeader
           title="Recent Orders"
           sideText={`${transactionData?.length} Latest Transactions`}
         />
@@ -109,13 +126,13 @@ const Row3 = () => {
               border: "none",
             },
             "& .MuiDataGrid-cell": {
-              borderBottom:`1px solid ${palette.grey[800]} !important`
+              borderBottom: `1px solid ${palette.grey[800]} !important`,
             },
             "& .MuiDataGrid-columnHeaders": {
-              borderBottom:`1px solid ${palette.grey[800]} !important`
+              borderBottom: `1px solid ${palette.grey[800]} !important`,
             },
             "& .MuiDataGrid-columnSeperator": {
-              visibility:"hidden" 
+              visibility: "hidden",
             },
           }}
         >
@@ -128,8 +145,58 @@ const Row3 = () => {
           />
         </Box>
       </DashboardBox>
-      <DashboardBox bgcolor="#fff" gridArea="i"></DashboardBox>
-      <DashboardBox bgcolor="#fff" gridArea="j"></DashboardBox>
+      <DashboardBox bgcolor="#fff" gridArea="i">
+        <BoxHeader title="Expense Breakdown by Category" sideText="+7%" />
+        <FlexBetween mt="0.5rem" gap="0.5rem" p="0 1rem">
+          {
+            pieChartData?.map((data) => (
+              <Box key={data[0].name}>
+                <PieChart width={100} height={80}>
+                  <Pie
+                    stroke="none"
+                    data={data}
+                    innerRadius={15}
+                    outerRadius={30}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    {data.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={pieColors[index]} />
+                    ))}
+                  </Pie>
+                </PieChart>
+                <Typography variant="h5" textAlign="center">
+                  {data[0].name}
+                </Typography>
+              </Box>
+            ))}
+        </FlexBetween>
+      </DashboardBox>
+      <DashboardBox bgcolor="#fff" gridArea="j">
+        <BoxHeader
+          title="Overall Summary and Explanation Data"
+          sideText="+9%"
+        />
+        <Box
+          height="15px"
+          margin="1.25rem 1rem 0.4rem 1rem"
+          bgcolor={palette.primary[800]}
+          borderRadius="1rem"
+        >
+          <Box
+            height="15px"
+            bgcolor={palette.primary[600]}
+            borderRadius="1rem"
+            width="40%"
+          ></Box>
+        </Box>
+        <Typography margin="0 1rem" variant="h6">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro
+          sapiente praesentium ipsum officiis fuga fugiat, debitis, modi dolor
+          quae laboriosam dolores eveniet ducimus quidem animi architecto
+          voluptates aliquam. Maxime, unde!
+        </Typography>
+      </DashboardBox>
     </>
   );
 };

@@ -54,18 +54,19 @@ const Dashboard = () => {
   return (
     <Box
       width="100%"
-      height="100%"
+      height="100%" 
       display="grid"
       gap="1.5rem"
+      paddingBottom="80px"
       sx={
         isAboveMediumScreens
           ? {
-              gridTemplateColoumns: "repeat(3,minmax(370px,1fr))",
+              gridTemplateColumns: "repeat(3,minmax(370px,1fr))",
               gridTemplateRows: "repeat(10,minmax(60px,1fr))",
               gridTemplateAreas: gridTemplateLargeScreens,
             }
           : {
-              gridAutoColoumns: "1fr",
+              gridAutoColumns: "1fr",
               gridAutoRows: "80px",
               gridTemplateAreas: gridTemplateSmallScreens,
             }
@@ -74,7 +75,7 @@ const Dashboard = () => {
       <Row1 />
       <Row2 />
       <Row3 />
-    </Box>
+      </Box>
   );
 };
 
